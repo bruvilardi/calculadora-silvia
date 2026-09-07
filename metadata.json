@@ -1,0 +1,8 @@
+{
+  "name": "O Futuro Tranquilo da Silvia",
+  "description": "Um painel interativo e acolhedor para ajudar na tomada de decisão sobre aposentadoria e moradia.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
