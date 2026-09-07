@@ -111,11 +111,11 @@ export default function App() {
   if (withdrawal === 0) {
     finalAge = 999;
     longevityHighlight = "Para sempre 🌟";
-    longevityText = "Você não precisa mexer na reserva. O seu patrimônio continuará crescendo intacto!";
+    longevityText = `Você não precisa mexer na reserva. Seus investimentos geram cerca de ${formatCurrency(safeYield)} "limpos" por mês sem você fazer nada!`;
   } else if (withdrawal <= safeYield) {
     finalAge = 999;
     longevityHighlight = "Para sempre 🌟";
-    longevityText = "O resgate é menor que o rendimento (IPCA + 5%). O dinheiro nunca acaba e o patrimônio cresce.";
+    longevityText = `O resgate é menor que o ganho real de seus investimentos (cerca de ${formatCurrency(safeYield)} "limpos"/mês). O dinheiro nunca acaba!`;
   } else {
     // Fórmula NPER: n = -log(1 - (PV * i) / PMT) / log(1 + i)
     const months = -Math.log(1 - (currentXpBalance * rateMonthly) / withdrawal) / Math.log(1 + rateMonthly);
@@ -123,10 +123,10 @@ export default function App() {
 
     if (finalAge >= 100) {
       longevityHighlight = "Mais de 100 anos 🌟";
-      longevityText = "Com muita folga! Sua reserva garante esse padrão de vida por toda a vida.";
+      longevityText = `Com muita folga! Lembre-se que seu dinheiro rende cerca de ${formatCurrency(safeYield)} "limpos" por mês, ajudando a pagar os custos.`;
     } else {
       longevityHighlight = `Até os ${finalAge} anos 🕊️`;
-      longevityText = "Baseado na projeção da XP, este é o tempo que sua reserva cobre o seu custo de vida.";
+      longevityText = `Sua reserva gera cerca de ${formatCurrency(safeYield)} "limpos"/mês, mas o resgate é maior. Esse é o tempo estimado até o dinheiro acabar.`;
     }
   }
 
@@ -475,7 +475,7 @@ export default function App() {
                     ? "Paz de espírito: No residencial, a sua medicação, alimentação e rotina de atividades são 100% cuidadas por profissionais 24h por dia. Você não precisa se preocupar com nada."
                     : (scenario === 4)
                     ? "Morando em Brasília você estará mais perto da família. O MedSenior tem ótima rede no DF, mas ainda precisaremos organizar sua rotina de remédios e suporte no novo apartamento."
-                    : "Lembrete importante: Como você morará sozinha em SP, precisaremos estruturar um apoio profissional ou familiar de perto para organizar seus medicamentos e garantir que você tenha uma rotina saudável fora de casa."
+                    : "Lembrete importante: Caso more sozinha, precisaremos estruturar um apoio profissional para organizar seus medicamentos e garantir que você tenha uma rotina saudável fora de casa."
                   }
                 </p>
               </div>
