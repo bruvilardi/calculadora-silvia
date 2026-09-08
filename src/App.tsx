@@ -35,7 +35,7 @@ export default function App() {
   const [rentSP, setRentSP] = useState(3500.00);
   const [condoSP, setCondoSP] = useState(300.00);
   const [coraCost, setCoraCost] = useState(9000.00);
-  const [rentDF, setRentDF] = useState(3500.00);
+  const [rentDF, setRentDF] = useState(3000.00);
   const [cheapRent, setCheapRent] = useState(2500.00);
   
   const [familyHelpValue, setFamilyHelpValue] = useState(3500.00);
@@ -329,7 +329,7 @@ export default function App() {
                   { id: 1, title: "Apê Atual SP", costNode: <>Custo Aluguel: <InlineCurrencyInput value={rentSP} onChange={setRentSP} /> / mês</> },
                   { id: 2, title: "Mudar para Imóvel Próprio", costNode: <>Condomínio: <InlineCurrencyInput value={condoSP} onChange={setCondoSP} /> / mês</>, disabled: sellApartment },
                   { id: 3, title: "Residencial Cora SP", costNode: <>Custo Mensal: <InlineCurrencyInput value={coraCost} onChange={setCoraCost} /> / mês</> },
-                  { id: 4, title: "Mudar para Brasília (DF)", costNode: <>Aluguel médio DF: <InlineCurrencyInput value={rentDF} onChange={setRentDF} /> / mês</> },
+                  { id: 4, title: "Mudar para Brasília (DF)", costNode: <>Aluguel + Condomínio: <InlineCurrencyInput value={rentDF} onChange={setRentDF} /> / mês</> },
                   { id: 5, title: "Apartamento Mais Barato", costNode: <>Custo Aluguel + Condomínio: <InlineCurrencyInput value={cheapRent} onChange={setCheapRent} /> / mês</> },
                 ].map((s) => (
                   <div 
