@@ -21,14 +21,14 @@ export default function App() {
   // ==========================================
   const [xpBalance, setXpBalance] = useState(427118.30);
   const [fixedIncome, setFixedIncome] = useState(5362.00);
-  const [baseHealthCost, setBaseHealthCost] = useState(1575.00);
-  const [healthDF, setHealthDF] = useState(1400.00);
+  const [baseHealthCost, setBaseHealthCost] = useState(2000.00);
+  const [healthDF, setHealthDF] = useState(2000.00);
   const [basicBills, setBasicBills] = useState(1308.00);
   const [movingCostDF, setMovingCostDF] = useState(8000.00);
   
   const [workIncome, setWorkIncome] = useState(2660.00);
   const [rentIncome, setRentIncome] = useState(2049.00);
-  const [kelvinCost, setKelvinCost] = useState(800.00);
+  const [kelvinCost, setKelvinCost] = useState(1500.00);
   const [travelCost, setTravelCost] = useState(800.00);
   const [hobbiesCost, setHobbiesCost] = useState(700.00);
 
@@ -114,6 +114,7 @@ export default function App() {
   // ==========================================
   const rateMonthly = Math.pow(1 + XP_REAL_RATE_ANNUAL, 1/12) - 1; 
   const safeYield = currentXpBalance * rateMonthly; 
+  const nominalYield = currentXpBalance * 0.009; // Baseado na média de ~0.9% ao mês
   
   let finalAge = 0;
   let longevityText = "";
@@ -125,23 +126,23 @@ export default function App() {
 
   if (withdrawal === 0) {
     finalAge = 999;
-    longevityHighlight = "Conforme o planejado 🌟";
+    longevityHighlight = "Patrimônio Protegido 🌟";
     longevityText = `Você não precisa mexer na reserva. Seus investimentos geram cerca de ${formatCurrency(safeYield)} "limpos" por mês sem você fazer nada!`;
   } else if (withdrawal <= safeYield) {
     finalAge = 999;
-    longevityHighlight = "Conforme o planejado 🌟";
-    longevityText = `O resgate é menor que o ganho real de seus investimentos (cerca de ${formatCurrency(safeYield)} "limpos"/mês). O patrimônio se mantém estável conforme o planejado.`;
+    longevityHighlight = "Patrimônio Infinito 🌟";
+    longevityText = `O resgate é menor que o ganho real de seus investimentos (cerca de ${formatCurrency(safeYield)} "limpos"/mês). Seu dinheiro nunca acabará mantendo esse padrão.`;
   } else {
     // Fórmula NPER: n = -log(1 - (PV * i) / PMT) / log(1 + i)
     const months = -Math.log(1 - (currentXpBalance * rateMonthly) / withdrawal) / Math.log(1 + rateMonthly);
     finalAge = Math.floor(71 + (months / 12));
 
     if (finalAge >= 100) {
-      longevityHighlight = "Conforme o planejado 🌟";
-      longevityText = `Sua reserva garante esse padrão de vida tranquilamente. O rendimento de cerca de ${formatCurrency(safeYield)} "limpos" por mês ajuda a preservar o patrimônio no longo prazo.`;
+      longevityHighlight = `Seguro até os ${finalAge} anos 🌟`;
+      longevityText = `Sua reserva garante esse padrão de vida tranquilamente. Mesmo consumindo um pouco do principal, o valor total só acabaria quando você estivesse com ${finalAge} anos!`;
     } else {
-      longevityHighlight = `Até os ${finalAge} anos 🕊️`;
-      longevityText = `Sua reserva gera cerca de ${formatCurrency(safeYield)} "limpos"/mês, mas o resgate é maior. Esse é o tempo estimado até o dinheiro acabar.`;
+      longevityHighlight = `Acabaria aos ${finalAge} anos 🕊️`;
+      longevityText = `Como o resgate é maior que o ganho real (${formatCurrency(safeYield)}/mês), uma parte do principal será usada. Mantendo esse exato padrão, o valor todo acabaria aos ${finalAge} anos.`;
     }
   }
 
@@ -330,7 +331,7 @@ export default function App() {
                   { id: 2, title: "Mudar para Imóvel Próprio", costNode: <>Condomínio: <InlineCurrencyInput value={condoSP} onChange={setCondoSP} /> / mês</>, disabled: sellApartment },
                   { id: 3, title: "Residencial Cora SP", costNode: <>Custo Mensal: <InlineCurrencyInput value={coraCost} onChange={setCoraCost} /> / mês</> },
                   { id: 4, title: "Mudar para Brasília (DF)", costNode: <>Aluguel + Condomínio: <InlineCurrencyInput value={rentDF} onChange={setRentDF} /> / mês</> },
-                  { id: 5, title: "Apartamento Mais Barato", costNode: <>Custo Aluguel + Condomínio: <InlineCurrencyInput value={cheapRent} onChange={setCheapRent} /> / mês</> },
+                  { id: 5, title: "Apartamento Mais Barato (1 quarto)", costNode: <>Custo Aluguel + Condomínio: <InlineCurrencyInput value={cheapRent} onChange={setCheapRent} /> / mês</> },
                 ].map((s) => (
                   <div 
                     key={s.id} 
@@ -497,9 +498,9 @@ export default function App() {
                       <div className={`h-full ${thermoBarBg} ${thermoWidth} transition-all duration-700 ease-out rounded-full`}></div>
                     </div>
                     
-                    <p className="text-sm mt-5 font-medium text-blue-950 leading-relaxed">
-                      *Cálculo matemático automático baseado no patrimônio da XP ({formatCurrency(currentXpBalance)}) rendendo conservadoramente IPCA + 5% ao ano. 
-                      Isso significa que seu dinheiro trabalha por você, gerando cerca de <strong>{formatCurrency(safeYield)} por mês</strong> (aproximadamente <strong>{formatCurrency(safeYield / 30)} todos os dias</strong>) só de rendimentos!
+                    <p className="text-sm mt-5 font-medium text-blue-950 leading-relaxed bg-blue-100/50 p-4 rounded-xl border border-blue-200">
+                      💡 <strong>Seu dinheiro trabalha por você:</strong> No aplicativo da corretora, você notará que seus rendimentos são ainda maiores (girando em torno de <strong>{formatCurrency(nominalYield)}</strong> ao mês!). 
+                      Aqui no simulador, nós usamos uma margem de segurança super conservadora propositalmente (descontando a inflação). Isso garante que o valor que você resgata seja o seu "ganho real", enquanto o restante fica na conta para corrigir o aumento dos preços. Assim, você tem a tranquilidade absoluta de que o dinheiro está protegido, não perde valor com o tempo e não vai faltar!
                     </p>
                   </div>
 
